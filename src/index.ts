@@ -83,6 +83,7 @@ function ms(val: number, long?: boolean): string;
 function ms(val: string | number, long = false) {
 	let abs;
 	let ms = 0;
+	if( typeof val === 'string' ) val = val.replace(/년/gi, 'y').replace(/주/gi, 'w').replace(/시간/gi, 'h').replace(/분/gi, 'm').replace(/초/gi, 's')
 	if (typeof val === 'string' && val.length) {
 		if (val.length < 101) {
 			const units = tokenize(val.toLowerCase());
@@ -99,10 +100,10 @@ function ms(val: string | number, long = false) {
 
 	if (typeof val === 'number' && isFinite(val)) {
 		abs = Math.abs(val);
-		if (abs >= DURATION.DAY) return pluralize(val, abs, DURATION.DAY, 'day', 'd', long);
-		if (abs >= DURATION.HOUR) return pluralize(val, abs, DURATION.HOUR, 'hour', 'h', long);
-		if (abs >= DURATION.MINUTE) return pluralize(val, abs, DURATION.MINUTE, 'minute', 'm', long);
-		if (abs >= DURATION.SECOND) return pluralize(val, abs, DURATION.SECOND, 'second', 's', long);
+		if (abs >= DURATION.DAY) return pluralize(val, abs, DURATION.DAY, 'day', '일', long);
+		if (abs >= DURATION.HOUR) return pluralize(val, abs, DURATION.HOUR, 'hour', '시간', long);
+		if (abs >= DURATION.MINUTE) return pluralize(val, abs, DURATION.MINUTE, 'minute', '분', long);
+		if (abs >= DURATION.SECOND) return pluralize(val, abs, DURATION.SECOND, 'second', '초', long);
 		return `${val}${long ? ' ' : ''}ms`;
 	}
 
